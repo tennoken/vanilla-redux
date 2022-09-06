@@ -1,40 +1,21 @@
-import { createStore } from "redux";
 
-const ADD = "ADD";
-const DELETE = "DELETE";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 
-const addTodo = (text) => {
-    return {
-    type : ADD,
-    text
+
+const todos = createSlice({
+    name : 'todosReducers',
+    initialState : [],
+    reducers : {
+        add : (state, action) => {
+            state.push({text : action.payload , id : Date.now()});
+        },
+        remove : (state,action) => state.filter(todo => action.payload !== todo.id)
     }
-}
+});
 
-const deleteTodo = (id) => {
-    return {
-    type : DELETE,
-    id : parseInt(id)
-    }
-}
+const store = configureStore({ reducer : todos.reducer});
 
-const reducer = (state = [], action) => {
-    switch(action.type){
-        case ADD : 
-            return [...state, {text : action.text , id : Date.now()}]
-        case DELETE :
-            return state.filter(todo => action.id !== todo.id);
-        default:
-            return state;
-    }
-}
-
-const store = createStore(reducer);
-
-
-export const actionCreator = {
-    addTodo,
-    deleteTodo
-}
+export const { add , remove } = todos.actions;
 
 export default store;

@@ -6,15 +6,15 @@ import { useParams } from "react-router-dom";
 const Detail = (props) => {
     const paramId = useParams().id;
     const {id, text} = props.todos.find(todo => todo.id === parseInt(paramId));
-    const birthday = new Date(id);
+    const createdDate = new Date(id);
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return (<>
         <h1>{text}</h1>
-        <h3>Created at : {birthday.toLocaleDateString('ko-KR', options)}</h3>
+        <h3>Created at : {createdDate.toLocaleDateString('ko-KR', options)}</h3>
     </>);
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state){ 
     return {todos : state}
 }
 
